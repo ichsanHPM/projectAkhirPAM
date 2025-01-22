@@ -4,7 +4,7 @@ import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
 
 @Serializable
-data class buku(
+data class Buku(
     @SerialName("id_buku")
     val id_buku: String,
     @SerialName("nama_buku")
