@@ -1,7 +1,7 @@
 package com.example.projectakhirpam.repository
 
 import com.example.projectakhirpam.model.Buku
-import com.example.projectakhirpam.service.bukuService
+import com.example.projectakhirpam.service.BukuService
 import java.io.IOException
 
 interface BukuRepository {
@@ -12,7 +12,7 @@ interface BukuRepository {
     suspend fun getBukuById(id_buku: String): Buku
 }
 
-class NetworkbukuRepository (private val bukuApiService: bukuService) : BukuRepository {
+class NetworkbukuRepository (private val bukuApiService: BukuService) : BukuRepository {
     override suspend fun insertBuku(buku: Buku) {
         bukuApiService.insertBuku(buku)
     }
