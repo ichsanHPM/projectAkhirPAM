@@ -25,7 +25,7 @@ interface bukuService{
     suspend fun insertBuku(@Body buku: Buku)
 
     @PUT("editbuku.php")
-    suspend fun editBuku(@Query("id_buku")id_buku: String, @Body buku: Buku)
+    suspend fun updateBuku(@Query("id_buku")id_buku: String, @Body buku: Buku)
 
     @DELETE("deletebuku.php")
     suspend fun deleteBuku(@Query("id_buku") id_buku: String): retrofit2.Response<Void>
