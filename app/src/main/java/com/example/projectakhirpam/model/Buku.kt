@@ -14,5 +14,12 @@ data class Buku(
     @SerialName("tanggal_terbit")
     val tanggal_terbit: String,
     @SerialName("status_buku")
-    val status_buku: String
+    val status_buku: String,
+    @SerialName("id_kategori")
+    val id_kategori: String,
+    @SerialName("id_penerbit")
+    val id_penerbit: String,
+    @SerialName("id_penulis")
+    val id_penulis: String,
+
 )
