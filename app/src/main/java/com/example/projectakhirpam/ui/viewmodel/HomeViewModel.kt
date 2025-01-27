@@ -9,7 +9,7 @@ import coil.network.HttpException
 import com.example.projectakhirpam.model.Buku
 import com.example.projectakhirpam.repository.BukuRepository
 import kotlinx.coroutines.launch
-import java.io.IOException
+import okio.IOException
 
 sealed class HomeUiState{
     data class Success(val buku: List<Buku>): HomeUiState()
@@ -18,7 +18,7 @@ sealed class HomeUiState{
 }
 
 class HomeViewModel (private val bk: BukuRepository): ViewModel(){
-    var bukuUiState: HomeUiState by mutableStateOf(HomeUiState.Loading)
+    var bkUIState: HomeUiState by mutableStateOf(HomeUiState.Loading)
         private set
 
     init {
@@ -27,8 +27,8 @@ class HomeViewModel (private val bk: BukuRepository): ViewModel(){
 
     fun getBk(){
         viewModelScope.launch{
-            bukuUiState = HomeUiState.Loading
-            bukuUiState = try {
+            bkUIState = HomeUiState.Loading
+            bkUIState = try {
                 HomeUiState.Success(bk.getBuku())
             }catch (e: IOException){
                 HomeUiState.Error
@@ -42,6 +42,7 @@ class HomeViewModel (private val bk: BukuRepository): ViewModel(){
         viewModelScope.launch{
             try {
                 bk.deleteBuku(id_buku)
+                getBk()
             }catch (e: IOException){
                 HomeUiState.Error
             }catch (e: HttpException){
