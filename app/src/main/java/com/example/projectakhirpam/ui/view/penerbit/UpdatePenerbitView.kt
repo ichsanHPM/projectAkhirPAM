@@ -119,6 +119,15 @@ fun FormInputPenerbit(
         modifier = modifier,
         verticalArrangement = Arrangement.spacedBy(12.dp)
     ) {
+
+        OutlinedTextField(
+            value = updatePenerbitUiEvent.id_penerbit,
+            onValueChange = { onValueChange(updatePenerbitUiEvent.copy(id_penerbit = it)) },
+            label = { Text("ID Penerbit") },
+            modifier = Modifier.fillMaxWidth(),
+            enabled = false,
+            singleLine = true
+        )
         OutlinedTextField(
             value = updatePenerbitUiEvent.nama_penerbit,
             onValueChange = { onValueChange(updatePenerbitUiEvent.copy(nama_penerbit = it)) },
@@ -141,14 +150,6 @@ fun FormInputPenerbit(
             label = { Text("Kontak Penerbit") },
             modifier = Modifier.fillMaxWidth(),
             enabled = enabled,
-            singleLine = true
-        )
-        OutlinedTextField(
-            value = updatePenerbitUiEvent.id_penerbit,
-            onValueChange = { onValueChange(updatePenerbitUiEvent.copy(id_penerbit = it)) },
-            label = { Text("ID Penerbit") },
-            modifier = Modifier.fillMaxWidth(),
-            enabled = false,
             singleLine = true
         )
     }
