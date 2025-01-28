@@ -37,6 +37,7 @@ class UpdateViewModel(
             try {
                 val buku = uiState.updateUiEvent.toBk()
                 bk.updateBuku(buku.id_buku, buku)
+                bk.getBuku()
                 uiState = uiState.copy(isSuccess = true)
             } catch (e: Exception) {
                 e.printStackTrace()

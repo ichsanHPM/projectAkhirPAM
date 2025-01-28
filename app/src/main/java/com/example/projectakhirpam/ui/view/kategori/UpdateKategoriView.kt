@@ -15,6 +15,7 @@ import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.input.nestedscroll.nestedScroll
@@ -38,6 +39,7 @@ object KategoriUpdate : DestinasiNavigasi {
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun UpdateKategoriScreen(
+    id_kategori: String,
     navigateBack: () -> Unit,
     modifier: Modifier = Modifier,
     viewModel: UpdateKategoriViewModel = viewModel(factory = PenyediaViewModel.Factory)
@@ -45,6 +47,11 @@ fun UpdateKategoriScreen(
     val uiState = viewModel.uiState
     val coroutineScope = rememberCoroutineScope()
     val scrollBehavior = TopAppBarDefaults.enterAlwaysScrollBehavior()
+
+    LaunchedEffect(id_kategori) {
+        viewModel.getKategoriById(id_kategori)
+    }
+
     Scaffold(
         modifier = modifier.nestedScroll(scrollBehavior.nestedScrollConnection),
         topBar = {
