@@ -18,6 +18,7 @@ import androidx.compose.foundation.lazy.items
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Add
 import androidx.compose.material.icons.filled.Delete
+import androidx.compose.material.icons.filled.Edit
 import androidx.compose.material3.Button
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
@@ -54,8 +55,10 @@ object DestinasiHomeKategori: DestinasiNavigasi {
 @Composable
 fun HomeKategoriScreen(
     navigateToItemEntry: () -> Unit,
+    navigateToUpdate:(Kategori)-> Unit,
     modifier: Modifier = Modifier,
-    onDetailClick: (Kategori) -> Unit = {},
+    onDetailClick: (String) -> Unit,
+    onDeleteCLick: (String) -> Unit = {},
     viewModel: HomeKategoriViewModel = viewModel(factory = PenyediaViewModel.Factory)
 ) {
     val scrollBehavior = TopAppBarDefaults.enterAlwaysScrollBehavior()
@@ -82,19 +85,20 @@ fun HomeKategoriScreen(
                 shape = MaterialTheme.shapes.medium,
                 modifier = Modifier.padding(18.dp)
             ) {
-                Icon(imageVector = Icons.Default.Add, contentDescription = "Add Kategori")
+                Icon(imageVector = Icons.Default.Add, contentDescription = "Add Kstegori") //belum diubah
             }
         }
-    ) { innerPadding ->
+    ) { innerpadding->
         HomeKategoriStatus(
             homeKategoriUiState = viewModel.kategoriUIState,
-            retryAction = { viewModel.getKategori() },
-            modifier = Modifier.padding(innerPadding),
+            retryAction = {viewModel.getKategori()},
+            modifier = Modifier.padding(innerpadding),
             onDetailClick = onDetailClick,
             onDeleteClick = {
                 viewModel.deleteKategori(it.id_kategori)
                 viewModel.getKategori()
-            }
+            },
+            onUpdate = navigateToUpdate
         )
     }
 }
@@ -105,7 +109,8 @@ fun HomeKategoriStatus(
     retryAction: () -> Unit,
     modifier: Modifier = Modifier,
     onDeleteClick: (Kategori) -> Unit = {},
-    onDetailClick: (Kategori) -> Unit
+    onDetailClick: (String) -> Unit,
+    onUpdate: (Kategori) -> Unit,
 ) {
     when (homeKategoriUiState) {
         is HomeKategoriUiState.Loading -> OnLoading(modifier = modifier.fillMaxSize())
@@ -118,8 +123,9 @@ fun HomeKategoriStatus(
                 KategoriLayout(
                     kategori = homeKategoriUiState.kategori,
                     modifier = modifier,
-                    onDetailClick = onDetailClick,
-                    onDeleteClick = onDeleteClick
+                    onDetailClick = {onDetailClick(it.id_kategori)},
+                    onDeleteClick = onDeleteClick,
+                    onUpdate = onUpdate
                 )
             }
         is HomeKategoriUiState.Error -> OnError(retryAction, modifier = modifier.fillMaxSize())
@@ -131,7 +137,8 @@ fun KategoriLayout(
     kategori: List<Kategori>,
     modifier: Modifier = Modifier,
     onDetailClick: (Kategori) -> Unit,
-    onDeleteClick: (Kategori) -> Unit = {}
+    onDeleteClick: (Kategori) -> Unit = {},
+    onUpdate: (Kategori) -> Unit
 ) {
     LazyColumn(
         modifier = modifier,
@@ -185,6 +192,7 @@ fun KategoriCard(
     kategori: Kategori,
     modifier: Modifier = Modifier,
     onDeleteClick: (Kategori) -> Unit = {},
+    onUpdate: (Kategori) -> Unit = {},
 ) {
     Card(
         modifier = modifier,
@@ -204,6 +212,12 @@ fun KategoriCard(
                     style = MaterialTheme.typography.titleLarge
                 )
                 Spacer(Modifier.weight(1f))
+                IconButton(onClick = { onUpdate(kategori) }) {   //tombol edit
+                    Icon(
+                        imageVector = Icons.Default.Edit,
+                        contentDescription = "Edit kategori"
+                    )
+                }
                 IconButton(onClick = { onDeleteClick(kategori) }) {
                     Icon(
                         imageVector = Icons.Default.Delete,

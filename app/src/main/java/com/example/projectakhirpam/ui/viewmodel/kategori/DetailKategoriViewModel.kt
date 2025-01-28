@@ -31,7 +31,7 @@ class DetailKategoriViewModel(
         getKategoriById(_id_kategori)
     }
 
-    private fun getKategoriById(id_kategori: String) {
+     fun getKategoriById(id_kategori: String) {
         viewModelScope.launch {
             _detailUiState.value = DetailKategoriUiState.Loading
             _detailUiState.value = try {
