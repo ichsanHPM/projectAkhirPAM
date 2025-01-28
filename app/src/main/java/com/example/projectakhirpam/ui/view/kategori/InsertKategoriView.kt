@@ -111,6 +111,14 @@ fun FormInputKategori(
         verticalArrangement = Arrangement.spacedBy(12.dp)
     ) {
         OutlinedTextField(
+            value = insertKategoriUiEvent.id_kategori,
+            onValueChange = { onValueChange(insertKategoriUiEvent.copy(id_kategori = it)) },
+            label = { Text("Id Kategori") },
+            modifier = Modifier.fillMaxWidth(),
+            enabled = enabled,
+            singleLine = true
+        )
+        OutlinedTextField(
             value = insertKategoriUiEvent.nama_kategori,
             onValueChange = { onValueChange(insertKategoriUiEvent.copy(nama_kategori = it)) },
             label = { Text("Nama Kategori") },
