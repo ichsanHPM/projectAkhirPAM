@@ -13,6 +13,7 @@ import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Edit
+import androidx.compose.material.icons.filled.List
 import androidx.compose.material3.Button
 import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.ExperimentalMaterial3Api
@@ -36,6 +37,7 @@ import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavHostController
 import com.example.projectakhirpam.ui.customwidget.CustomeTopAppBarr
 import com.example.projectakhirpam.ui.navigasi.DestinasiNavigasi
+import com.example.projectakhirpam.ui.view.kategori.DestinasiHomeKategori
 import com.example.projectakhirpam.ui.viewmodel.DetailUiState
 import com.example.projectakhirpam.ui.viewmodel.DetailViewModel
 import com.example.projectakhirpam.ui.viewmodel.PenyediaViewModel
@@ -72,12 +74,12 @@ fun DetailBukuScreen(
         floatingActionButton = {
             FloatingActionButton(
                 onClick = {
-                    navController.navigate("update_bk/$id_buku")
+                    navController.navigate(DestinasiHomeKategori.route)
                 },
                 shape = MaterialTheme.shapes.medium,
                 modifier = Modifier.padding(18.dp)
             ) {
-                Icon(imageVector = Icons.Default.Edit, contentDescription = "Update Buku")
+                Icon(imageVector = Icons.Default.List, contentDescription = "Kategori")
             }
         }
     ) { innerPadding ->
