@@ -15,6 +15,7 @@ import androidx.compose.foundation.lazy.items
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Add
 import androidx.compose.material.icons.filled.Delete
+import androidx.compose.material.icons.filled.Edit
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.ExperimentalMaterial3Api
@@ -49,9 +50,10 @@ object DestinasiHomePenerbit : DestinasiNavigasi {
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun HomePenerbitScreen(
+    navigateBack: () -> Unit,
     navigateToItemEntry: () -> Unit,
     modifier: Modifier = Modifier,
-    onDetailClick: (Penerbit) -> Unit = {},
+    onDetailClick: (String) -> Unit = {},
     viewModel: HomePenerbitViewModel = viewModel (factory = PenyediaViewModel.Factory)
 ) {
     val scrollBehavior = TopAppBarDefaults.enterAlwaysScrollBehavior()
@@ -65,7 +67,7 @@ fun HomePenerbitScreen(
         topBar = {
             CustomeTopAppBarr(
                 title = DestinasiHomePenerbit.titleRes,
-                canNavigateBack = false,
+                canNavigateBack = true,
                 scrollBehavior = scrollBehavior,
                 onRefresh = {
                     viewModel.getPenerbit()
@@ -101,7 +103,7 @@ fun HomePenerbitStatus(
     retryAction: () -> Unit,
     modifier: Modifier = Modifier,
     onDeleteClick: (Penerbit) -> Unit = {},
-    onDetailClick: (Penerbit) -> Unit
+    onDetailClick: (String) -> Unit
 ) {
     when (homePenerbitUiState) {
         is HomePenerbitUiState.Loading -> OnLoading(modifier = modifier.fillMaxSize())
@@ -114,7 +116,7 @@ fun HomePenerbitStatus(
                 PenerbitLayout(
                     penerbit = homePenerbitUiState.penerbit,
                     modifier = modifier,
-                    onDetailClick = onDetailClick,
+                    onDetailClick = {onDetailClick(it.id_penerbit)},
                     onDeleteClick = onDeleteClick
                 )
             }
@@ -137,14 +139,14 @@ fun PenerbitLayout(
         contentPadding = PaddingValues(16.dp),
         verticalArrangement = Arrangement.spacedBy(16.dp)
     ) {
-        items(penerbit) { pnrbt ->
+        items(penerbit) { penerbit ->
             PenerbitCard(
-                penerbit = pnrbt,
+                penerbit =  penerbit,
                 modifier = Modifier
                     .fillMaxWidth()
-                    .clickable { onDetailClick(pnrbt) },
+                    .clickable { onDetailClick( penerbit) },
                 onDeleteClick = {
-                    onDeleteClick(pnrbt)
+                    onDeleteClick( penerbit)
                 }
             )
         }
@@ -155,7 +157,8 @@ fun PenerbitLayout(
 fun PenerbitCard(
     penerbit: Penerbit,
     modifier: Modifier = Modifier,
-    onDeleteClick: (Penerbit) -> Unit
+    onDeleteClick: (Penerbit) -> Unit,
+    onUpdate: (Penerbit) -> Unit = {}
 ) {
     Card(
         modifier = modifier,
@@ -175,6 +178,12 @@ fun PenerbitCard(
                     style = MaterialTheme.typography.titleLarge
                 )
                 Spacer(Modifier.weight(1f))
+                IconButton(onClick = { onUpdate(penerbit) }) {   //tombol edit
+                    Icon(
+                        imageVector = Icons.Default.Edit,
+                        contentDescription = "Edit penerbit"
+                    )
+                }
                 IconButton(onClick = { onDeleteClick(penerbit) }) {
                     Icon(
                         imageVector = Icons.Default.Delete,
