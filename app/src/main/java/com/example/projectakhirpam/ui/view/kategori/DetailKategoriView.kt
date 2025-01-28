@@ -23,6 +23,7 @@ import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Alignment
@@ -36,7 +37,6 @@ import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavHostController
 import com.example.projectakhirpam.ui.customwidget.CustomeTopAppBarr
 import com.example.projectakhirpam.ui.navigasi.DestinasiNavigasi
-import com.example.projectakhirpam.ui.viewmodel.DetailUiState
 import com.example.projectakhirpam.ui.viewmodel.PenyediaViewModel
 import com.example.projectakhirpam.ui.viewmodel.kategori.DetailKategoriUiState
 import com.example.projectakhirpam.ui.viewmodel.kategori.DetailKategoriViewModel
@@ -61,6 +61,10 @@ fun DetailKategoriScreen(
     val coroutineScope = rememberCoroutineScope()
     val scrollBehavior = TopAppBarDefaults.enterAlwaysScrollBehavior()
 
+    LaunchedEffect (Unit) {
+        viewModel.getKategoriById(id_kategori)
+    }
+
     Scaffold(
         modifier = modifier.nestedScroll(scrollBehavior.nestedScrollConnection),
         topBar = {
@@ -74,7 +78,7 @@ fun DetailKategoriScreen(
         floatingActionButton = {
             FloatingActionButton(
                 onClick = {
-                    navController.navigate("update_kategori/$id_kategori")
+                    navController.navigate("updateKategori/$id_kategori")
                 },
                 shape = MaterialTheme.shapes.medium,
                 modifier = Modifier.padding(18.dp)
